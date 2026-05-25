@@ -1,0 +1,97 @@
+*{
+margin:0 ; padding:0 ;
+box-sizing: border-box;
+}
+body{
+    font-family: Arial, Helvetica, sans-serif;
+background-color: rgb(93, 201, 225);
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+header{
+    background-color: rgb(140, 239, 239);
+    color: rgb(0, 0, 0);
+    padding: 50px;
+    text-align: center;
+}
+footer{
+    background-color: azure;
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    text-align: center;
+}
+table{
+    width: 100%;
+    border-bottom: 20px;
+}
+tr{
+padding: 20px;
+border-collapse: collapse;
+}
+td{
+    padding: 10px;
+    text-align: center;
+    border-bottom: 10px;
+}
+th{
+   padding: 10px;
+   text-align: center;
+   border-bottom: 10px;
+}
+aside{
+    background-color: rgb(101, 234, 172);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 40px;
+}
+input{
+    width: 100%;
+    padding: 20px;
+    border: 20px;
+    border-radius: 40px;
+}
+input:focus{
+    border-color: blue;
+}
+select{
+    width: 100%;
+    padding: 20px;
+    border: 20px;
+    border-radius: 30px;
+    margin-top: 10px;
+}
+select:focus{
+    border-color: blue;
+}
+button{
+    margin-top: 30px;
+    font-size: 20px;
+    padding: 10px;
+    background-color: rgb(10, 129, 188);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+button:hover{
+    border-color: rgb(3, 47, 46);
+    color: white;
+}
+
+@media screen and (max-width:768px) {
+    main{
+        flex-direction: column;
+    }
+    aside{
+   width: 100%;
+    }
+    table{
+        display: block;
+        overflow-x: auto;
+    }
+    
+}
