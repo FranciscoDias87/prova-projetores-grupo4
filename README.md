@@ -40,7 +40,7 @@ Jane \ Raiane \ Kellyane
 
 ## 🎓 **Nota Avaliativa**
 
-### **10.5 / 10.0** ⭐
+### **5.5 / 10.0** + Ponto_Extra 5 = 10.0
 
 | Critério | Nota | Justificativa |
 |----------|------|--------------|
