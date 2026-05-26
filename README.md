@@ -124,7 +124,7 @@ button { font-size: 20px; }  /* Sem peso visual diferenciado */
 
 ## 🎓 **Nota Avaliativa - CSS**
 
-### **4.5 / 10.0**
+### **4.0 / 10.0** + Ponto_Extra 5 = 9.0
 
 | Critério | Nota | Justificativa |
 |----------|------|--------------|
@@ -145,13 +145,6 @@ button { font-size: 20px; }  /* Sem peso visual diferenciado */
 
 ---
 
-## 📈 Resumo Geral do Projeto
 
-| Componente | Nota | Status |
-|-----------|------|--------|
-| **HTML** | 10.0/10 | ✅ Bom (com ponto extra) |
-| **CSS** | 4.5/10 | ⚠️ Precisa melhorias estruturais |
-| **JavaScript** | — | — |
-| **Média Atual** | **7.25/10** | — |
 
 **Próximos passos**: Focar em corrigir os erros CSS e melhorar a organização do código antes de adicionar funcionalidades JavaScript.
