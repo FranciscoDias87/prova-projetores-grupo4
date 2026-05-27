@@ -1,0 +1,75 @@
+const reservationForm = document.querySelector('#reservation-form');
+const reservationList = document.querySelector('reservation-list');
+
+reservationForm.addEventListener('submit', function(event){
+    event.preventDefault();
+    console.log('Formulario enviado');
+
+});
+
+const teacherName = document.querySelector('#teacher-name').value;
+const reservationDate = document.querySelector('#reservationDate').value; 
+const teacherName = document.querySelector('#teacherName').value;
+const reservationDate = document.querySelector('#reservationDate').value;
+const projectorModel = document.querySelector('#projectorModel').value;
+const starTime = document.querySelector('#starTime').value;
+const contactInfo = document.querySelector('#contactInfo').value;
+
+if(
+    teacherName === ''|| 
+    reservationDate === '' ||
+    starTime === ''
+
+){
+    alert('Preencha todos os campos!');
+    return; 
+}
+
+const currentDate = new Date().toISOString().split('T')[0];
+if (reservationDate < currentDate) {
+    alert('Não é permitido agendar datas passadas!');
+    return;
+}
+
+const reservationDatabase = [];
+
+const newReservation = {
+    teacherName,
+    reservationDate,
+    startTime,
+    projectorModel,
+    contactInfo
+};
+
+const isReserved = reservationDatabase.some(function(reservation) {
+    return (
+        reservation.projectorModel === projectorModel &&
+        reservation.reservationDate === reservationDate &&
+        reservation.startTime === startTime
+    );
+});
+
+reservationDatabase.push(newReservation);
+
+const tableRow = document.createElement('tr');
+
+tableRow.innerHTML = `
+    <td>${teacherName}</td>
+    <td>${reservationDate}</td>
+    <td>${startTime}</td>
+    <td>${projectorModel}</td>
+    <td>${contactInfo}</td>
+`;
+
+reservationList.appendChild(tableRow);
+
+reservationForm.reset();
+
+localStorage.setItem(
+    'reservations',
+    JSON.stringify(reservationDatabase)
+);
+
+const savedReservations =
+    JSON.parse(localStorage.getItem('reservations')) || [];
+
