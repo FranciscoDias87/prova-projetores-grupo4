@@ -148,3 +148,133 @@ button { font-size: 20px; }  /* Sem peso visual diferenciado */
 
 
 **Próximos passos**: Focar em corrigir os erros CSS e melhorar a organização do código antes de adicionar funcionalidades JavaScript.
+
+# Avaliação do app.js: **6/10 + Ponto_extra 5 = 10**
+
+## Pontos Positivos ✅
+
+1. **Estrutura básica correta**: Sabe como usar `addEventListener` e `preventDefault()`
+2. **Validação de campos**: Tenta validar se os campos estão preenchidos
+3. **Validação de datas**: Verifica se a data é no passado
+4. **LocalStorage**: Tenta persistir dados (conceito avançado)
+5. **Manipulação do DOM**: Cria elementos e adiciona à página
+
+## Problemas Críticos ❌
+
+### 1. **Código fora do event listener** (MAIOR PROBLEMA)
+```javascript
+// Isso está FORA do addEventListener!
+const teacherName = document.querySelector('#teacher-name').value;
+```
+**O que acontece**: Os valores são capturados UMA VEZ quando a página carrega, não quando o formulário é submetido. Isso significa que a validação e armazenamento nunca funcionarão.
+
+**Solução**: Todo o código deve estar DENTRO da função do `addEventListener`
+
+### 2. **Variáveis duplicadas e inconsistentes**
+```javascript
+const teacherName = document.querySelector('#teacher-name').value;    // teacher-name
+const teacherName = document.querySelector('#teacherName').value;     // teacherName (DUPLICADO!)
+```
+- Mesmo nome de variável declarado 2x
+- IDs HTML inconsistentes (`teacher-name` vs `teacherName`)
+
+### 3. **Typo no nome da variável**
+```javascript
+const starTime = document.querySelector('#starTime').value;  // "starTime"
+// Mas depois usa:
+startTime  // Sem "r" - vai dar erro!
+```
+
+### 4. **reservationDatabase está vazio**
+```javascript
+const reservationDatabase = [];  // Criado vazio toda vez!
+reservationDatabase.push(newReservation);
+```
+**Problema**: A cada envio, cria um novo array vazio. Os dados anteriores são perdidos.
+
+**Solução**: Recuperar do localStorage primeiro
+```javascript
+const reservationDatabase = JSON.parse(localStorage.getItem('reservations')) || [];
+```
+
+### 5. **Seletor do elemento errado**
+```javascript
+const reservationList = document.querySelector('reservation-list');  // Tag customizada?
+```
+Deveria ser uma classe ou ID: `'.reservation-list'` ou `'#reservation-list'`
+
+### 6. **Verificação de conflito não funciona**
+O `isReserved` é calculado mas nunca é usado. Se houver conflito, deveria alertar e não adicionar.
+
+---
+
+## Código Corrigido (Estrutura básica)
+
+```javascript
+const reservationForm = document.querySelector('#reservation-form');
+const reservationList = document.querySelector('#reservation-list'); // Corrigido
+
+reservationForm.addEventListener('submit', function(event){
+    event.preventDefault();
+    
+    // TUDO AQUI DENTRO
+    const teacherName = document.querySelector('#teacher-name').value;
+    const reservationDate = document.querySelector('#reservation-date').value;
+    const projectorModel = document.querySelector('#projector-model').value;
+    const startTime = document.querySelector('#start-time').value;
+    const contactInfo = document.querySelector('#contact-info').value;
+
+    // Validação
+    if(!teacherName || !reservationDate || !startTime) {
+        alert('Preencha todos os campos!');
+        return; 
+    }
+
+    // Recuperar dados antigos do localStorage
+    const reservationDatabase = JSON.parse(localStorage.getItem('reservations')) || [];
+
+    // Verificar conflito
+    const isReserved = reservationDatabase.some(function(reservation) {
+        return (
+            reservation.projectorModel === projectorModel &&
+            reservation.reservationDate === reservationDate &&
+            reservation.startTime === startTime
+        );
+    });
+
+    if(isReserved) {
+        alert('Projetor já reservado nesse horário!');
+        return;
+    }
+
+    // Adicionar nova reserva
+    const newReservation = { teacherName, reservationDate, startTime, projectorModel, contactInfo };
+    reservationDatabase.push(newReservation);
+
+    // Salvar no localStorage
+    localStorage.setItem('reservations', JSON.stringify(reservationDatabase));
+
+    // Adicionar à tabela
+    const tableRow = document.createElement('tr');
+    tableRow.innerHTML = `
+        <td>${teacherName}</td>
+        <td>${reservationDate}</td>
+        <td>${startTime}</td>
+        <td>${projectorModel}</td>
+        <td>${contactInfo}</td>
+    `;
+    reservationList.appendChild(tableRow);
+
+    reservationForm.reset();
+});
+```
+
+---
+
+## Recomendações de Aprendizado
+
+1. **Sempre coloque código dependente de eventos DENTRO do listener**
+2. **Use nomes consistentes** para IDs HTML (use kebab-case: `teacher-name`)
+3. **Teste no console** (F12) para ver os erros
+4. **Recupere dados do localStorage** antes de usar
+5. **Use lógica de verificação** antes de salvar dados duplicados
